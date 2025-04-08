@@ -19,177 +19,215 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	Auth_Login_FullMethodName    = "/tdl.Auth/Login"
-	Auth_Register_FullMethodName = "/tdl.Auth/Register"
-	Auth_IsAdmin_FullMethodName  = "/tdl.Auth/IsAdmin"
+	TodoList_Create_FullMethodName  = "/tdl.TodoList/Create"
+	TodoList_Delete_FullMethodName  = "/tdl.TodoList/Delete"
+	TodoList_Done_FullMethodName    = "/tdl.TodoList/Done"
+	TodoList_InfoAll_FullMethodName = "/tdl.TodoList/InfoAll"
 )
 
-// AuthClient is the client API for Auth service.
+// TodoListClient is the client API for TodoList service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-type AuthClient interface {
-	Login(ctx context.Context, in *LoginRequest, opts ...grpc.CallOption) (*LoginResponse, error)
-	Register(ctx context.Context, in *RegisterRequest, opts ...grpc.CallOption) (*RegisterResponse, error)
-	IsAdmin(ctx context.Context, in *IsAdminRequest, opts ...grpc.CallOption) (*IsAdminResponse, error)
+type TodoListClient interface {
+	Create(ctx context.Context, in *CreateRequest, opts ...grpc.CallOption) (*CreateResponse, error)
+	Delete(ctx context.Context, in *DeleteRequest, opts ...grpc.CallOption) (*DeleteResponse, error)
+	Done(ctx context.Context, in *DoneRequest, opts ...grpc.CallOption) (*DoneResponse, error)
+	InfoAll(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*InfoAllResponse, error)
 }
 
-type authClient struct {
+type todoListClient struct {
 	cc grpc.ClientConnInterface
 }
 
-func NewAuthClient(cc grpc.ClientConnInterface) AuthClient {
-	return &authClient{cc}
+func NewTodoListClient(cc grpc.ClientConnInterface) TodoListClient {
+	return &todoListClient{cc}
 }
 
-func (c *authClient) Login(ctx context.Context, in *LoginRequest, opts ...grpc.CallOption) (*LoginResponse, error) {
+func (c *todoListClient) Create(ctx context.Context, in *CreateRequest, opts ...grpc.CallOption) (*CreateResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(LoginResponse)
-	err := c.cc.Invoke(ctx, Auth_Login_FullMethodName, in, out, cOpts...)
+	out := new(CreateResponse)
+	err := c.cc.Invoke(ctx, TodoList_Create_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *authClient) Register(ctx context.Context, in *RegisterRequest, opts ...grpc.CallOption) (*RegisterResponse, error) {
+func (c *todoListClient) Delete(ctx context.Context, in *DeleteRequest, opts ...grpc.CallOption) (*DeleteResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(RegisterResponse)
-	err := c.cc.Invoke(ctx, Auth_Register_FullMethodName, in, out, cOpts...)
+	out := new(DeleteResponse)
+	err := c.cc.Invoke(ctx, TodoList_Delete_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *authClient) IsAdmin(ctx context.Context, in *IsAdminRequest, opts ...grpc.CallOption) (*IsAdminResponse, error) {
+func (c *todoListClient) Done(ctx context.Context, in *DoneRequest, opts ...grpc.CallOption) (*DoneResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(IsAdminResponse)
-	err := c.cc.Invoke(ctx, Auth_IsAdmin_FullMethodName, in, out, cOpts...)
+	out := new(DoneResponse)
+	err := c.cc.Invoke(ctx, TodoList_Done_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-// AuthServer is the server API for Auth service.
-// All implementations must embed UnimplementedAuthServer
+func (c *todoListClient) InfoAll(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*InfoAllResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(InfoAllResponse)
+	err := c.cc.Invoke(ctx, TodoList_InfoAll_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// TodoListServer is the server API for TodoList service.
+// All implementations must embed UnimplementedTodoListServer
 // for forward compatibility.
-type AuthServer interface {
-	Login(context.Context, *LoginRequest) (*LoginResponse, error)
-	Register(context.Context, *RegisterRequest) (*RegisterResponse, error)
-	IsAdmin(context.Context, *IsAdminRequest) (*IsAdminResponse, error)
-	mustEmbedUnimplementedAuthServer()
+type TodoListServer interface {
+	Create(context.Context, *CreateRequest) (*CreateResponse, error)
+	Delete(context.Context, *DeleteRequest) (*DeleteResponse, error)
+	Done(context.Context, *DoneRequest) (*DoneResponse, error)
+	InfoAll(context.Context, *Empty) (*InfoAllResponse, error)
+	mustEmbedUnimplementedTodoListServer()
 }
 
-// UnimplementedAuthServer must be embedded to have
+// UnimplementedTodoListServer must be embedded to have
 // forward compatible implementations.
 //
 // NOTE: this should be embedded by value instead of pointer to avoid a nil
 // pointer dereference when methods are called.
-type UnimplementedAuthServer struct{}
+type UnimplementedTodoListServer struct{}
 
-func (UnimplementedAuthServer) Login(context.Context, *LoginRequest) (*LoginResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Login not implemented")
+func (UnimplementedTodoListServer) Create(context.Context, *CreateRequest) (*CreateResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Create not implemented")
 }
-func (UnimplementedAuthServer) Register(context.Context, *RegisterRequest) (*RegisterResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Register not implemented")
+func (UnimplementedTodoListServer) Delete(context.Context, *DeleteRequest) (*DeleteResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Delete not implemented")
 }
-func (UnimplementedAuthServer) IsAdmin(context.Context, *IsAdminRequest) (*IsAdminResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method IsAdmin not implemented")
+func (UnimplementedTodoListServer) Done(context.Context, *DoneRequest) (*DoneResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Done not implemented")
 }
-func (UnimplementedAuthServer) mustEmbedUnimplementedAuthServer() {}
-func (UnimplementedAuthServer) testEmbeddedByValue()              {}
+func (UnimplementedTodoListServer) InfoAll(context.Context, *Empty) (*InfoAllResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method InfoAll not implemented")
+}
+func (UnimplementedTodoListServer) mustEmbedUnimplementedTodoListServer() {}
+func (UnimplementedTodoListServer) testEmbeddedByValue()                  {}
 
-// UnsafeAuthServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to AuthServer will
+// UnsafeTodoListServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to TodoListServer will
 // result in compilation errors.
-type UnsafeAuthServer interface {
-	mustEmbedUnimplementedAuthServer()
+type UnsafeTodoListServer interface {
+	mustEmbedUnimplementedTodoListServer()
 }
 
-func RegisterAuthServer(s grpc.ServiceRegistrar, srv AuthServer) {
-	// If the following call pancis, it indicates UnimplementedAuthServer was
+func RegisterTodoListServer(s grpc.ServiceRegistrar, srv TodoListServer) {
+	// If the following call pancis, it indicates UnimplementedTodoListServer was
 	// embedded by pointer and is nil.  This will cause panics if an
 	// unimplemented method is ever invoked, so we test this at initialization
 	// time to prevent it from happening at runtime later due to I/O.
 	if t, ok := srv.(interface{ testEmbeddedByValue() }); ok {
 		t.testEmbeddedByValue()
 	}
-	s.RegisterService(&Auth_ServiceDesc, srv)
+	s.RegisterService(&TodoList_ServiceDesc, srv)
 }
 
-func _Auth_Login_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(LoginRequest)
+func _TodoList_Create_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(AuthServer).Login(ctx, in)
+		return srv.(TodoListServer).Create(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: Auth_Login_FullMethodName,
+		FullMethod: TodoList_Create_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AuthServer).Login(ctx, req.(*LoginRequest))
+		return srv.(TodoListServer).Create(ctx, req.(*CreateRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Auth_Register_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(RegisterRequest)
+func _TodoList_Delete_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(AuthServer).Register(ctx, in)
+		return srv.(TodoListServer).Delete(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: Auth_Register_FullMethodName,
+		FullMethod: TodoList_Delete_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AuthServer).Register(ctx, req.(*RegisterRequest))
+		return srv.(TodoListServer).Delete(ctx, req.(*DeleteRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Auth_IsAdmin_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(IsAdminRequest)
+func _TodoList_Done_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DoneRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(AuthServer).IsAdmin(ctx, in)
+		return srv.(TodoListServer).Done(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: Auth_IsAdmin_FullMethodName,
+		FullMethod: TodoList_Done_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AuthServer).IsAdmin(ctx, req.(*IsAdminRequest))
+		return srv.(TodoListServer).Done(ctx, req.(*DoneRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-// Auth_ServiceDesc is the grpc.ServiceDesc for Auth service.
+func _TodoList_InfoAll_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Empty)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TodoListServer).InfoAll(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: TodoList_InfoAll_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TodoListServer).InfoAll(ctx, req.(*Empty))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+// TodoList_ServiceDesc is the grpc.ServiceDesc for TodoList service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
-var Auth_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "tdl.Auth",
-	HandlerType: (*AuthServer)(nil),
+var TodoList_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "tdl.TodoList",
+	HandlerType: (*TodoListServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "Login",
-			Handler:    _Auth_Login_Handler,
+			MethodName: "Create",
+			Handler:    _TodoList_Create_Handler,
 		},
 		{
-			MethodName: "Register",
-			Handler:    _Auth_Register_Handler,
+			MethodName: "Delete",
+			Handler:    _TodoList_Delete_Handler,
 		},
 		{
-			MethodName: "IsAdmin",
-			Handler:    _Auth_IsAdmin_Handler,
+			MethodName: "Done",
+			Handler:    _TodoList_Done_Handler,
+		},
+		{
+			MethodName: "InfoAll",
+			Handler:    _TodoList_InfoAll_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
