@@ -30,8 +30,8 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type TodoListClient interface {
 	Create(ctx context.Context, in *CreateRequest, opts ...grpc.CallOption) (*CreateResponse, error)
-	Delete(ctx context.Context, in *DeleteRequest, opts ...grpc.CallOption) (*DeleteResponse, error)
-	Done(ctx context.Context, in *DoneRequest, opts ...grpc.CallOption) (*DoneResponse, error)
+	Delete(ctx context.Context, in *DeleteRequest, opts ...grpc.CallOption) (*Empty, error)
+	Done(ctx context.Context, in *DoneRequest, opts ...grpc.CallOption) (*Empty, error)
 	InfoAll(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*InfoAllResponse, error)
 }
 
@@ -53,9 +53,9 @@ func (c *todoListClient) Create(ctx context.Context, in *CreateRequest, opts ...
 	return out, nil
 }
 
-func (c *todoListClient) Delete(ctx context.Context, in *DeleteRequest, opts ...grpc.CallOption) (*DeleteResponse, error) {
+func (c *todoListClient) Delete(ctx context.Context, in *DeleteRequest, opts ...grpc.CallOption) (*Empty, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(DeleteResponse)
+	out := new(Empty)
 	err := c.cc.Invoke(ctx, TodoList_Delete_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -63,9 +63,9 @@ func (c *todoListClient) Delete(ctx context.Context, in *DeleteRequest, opts ...
 	return out, nil
 }
 
-func (c *todoListClient) Done(ctx context.Context, in *DoneRequest, opts ...grpc.CallOption) (*DoneResponse, error) {
+func (c *todoListClient) Done(ctx context.Context, in *DoneRequest, opts ...grpc.CallOption) (*Empty, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(DoneResponse)
+	out := new(Empty)
 	err := c.cc.Invoke(ctx, TodoList_Done_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -88,8 +88,8 @@ func (c *todoListClient) InfoAll(ctx context.Context, in *Empty, opts ...grpc.Ca
 // for forward compatibility.
 type TodoListServer interface {
 	Create(context.Context, *CreateRequest) (*CreateResponse, error)
-	Delete(context.Context, *DeleteRequest) (*DeleteResponse, error)
-	Done(context.Context, *DoneRequest) (*DoneResponse, error)
+	Delete(context.Context, *DeleteRequest) (*Empty, error)
+	Done(context.Context, *DoneRequest) (*Empty, error)
 	InfoAll(context.Context, *Empty) (*InfoAllResponse, error)
 	mustEmbedUnimplementedTodoListServer()
 }
@@ -104,10 +104,10 @@ type UnimplementedTodoListServer struct{}
 func (UnimplementedTodoListServer) Create(context.Context, *CreateRequest) (*CreateResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Create not implemented")
 }
-func (UnimplementedTodoListServer) Delete(context.Context, *DeleteRequest) (*DeleteResponse, error) {
+func (UnimplementedTodoListServer) Delete(context.Context, *DeleteRequest) (*Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Delete not implemented")
 }
-func (UnimplementedTodoListServer) Done(context.Context, *DoneRequest) (*DoneResponse, error) {
+func (UnimplementedTodoListServer) Done(context.Context, *DoneRequest) (*Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Done not implemented")
 }
 func (UnimplementedTodoListServer) InfoAll(context.Context, *Empty) (*InfoAllResponse, error) {
