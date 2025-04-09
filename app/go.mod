@@ -1,6 +1,6 @@
-module app
+module github.com/EstJe/todo-list/app
 
-go 1.24.1
+go 1.24.0
 
 require (
 	github.com/BurntSushi/toml v1.2.1 // indirect
