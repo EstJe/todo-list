@@ -5,7 +5,7 @@ import "google/protobuf/timestamp.proto";
 
 package tdl;
 
-option go_package = "github.com/EstJe/todo-list/internal/protos/proto;tdl";
+option go_package = "tdl.v1;tdl";
 
 service TodoList {
   rpc Create (CreateRequest) returns (CreateResponse);
