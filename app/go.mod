@@ -3,6 +3,7 @@ module github.com/EstJe/todo-list/app
 go 1.24.1
 
 require (
+	github.com/EstJe/todo-list/internal/protos v0.0.0-20250410134103-addb1d961d4c
 	github.com/fatih/color v1.18.0
 	github.com/go-redis/redis/v8 v8.11.5
 	github.com/google/uuid v1.6.0
