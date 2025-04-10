@@ -10,7 +10,6 @@ require (
 )
 
 require (
-	github.com/EstJe/todo-list/internal/protos v0.0.0-20250410102410-ea7e558d4455 // indirect
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
 	github.com/dgryski/go-rendezvous v0.0.0-20200823014737-9f7001d12a5f // indirect
 	github.com/envoyproxy/protoc-gen-validate v1.2.1 // indirect
