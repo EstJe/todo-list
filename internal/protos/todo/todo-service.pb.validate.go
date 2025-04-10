@@ -2,7 +2,7 @@
 // source: todo/todo-service.proto
 
 package todoapi
-//
+
 import (
 	"bytes"
 	"errors"
