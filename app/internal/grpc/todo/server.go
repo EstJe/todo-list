@@ -89,5 +89,7 @@ func (s *serverAPI) GetTasks(ctx context.Context, in *emptypb.Empty) (*todoapi.G
 		return nil, status.Error(codes.Internal, "internal server error")
 	}
 
+	grpcTasks := make([]todoapi.GetTasksResponse_Task)
+
 	return &todoapi.GetTasksResponse{}
 }
