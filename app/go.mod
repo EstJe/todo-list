@@ -3,7 +3,6 @@ module github.com/EstJe/todo-list/app
 go 1.24.1
 
 require (
-	github.com/EstJe/todo-list/internal/protos v0.0.0-20250410134103-addb1d961d4c
 	github.com/fatih/color v1.18.0
 	github.com/go-redis/redis/v8 v8.11.5
 	github.com/google/uuid v1.6.0
@@ -12,6 +11,7 @@ require (
 )
 
 require (
+	github.com/EstJe/todo-list/internal/protos v0.0.0-20250410134103-addb1d961d4c // indirect
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
 	github.com/dgryski/go-rendezvous v0.0.0-20200823014737-9f7001d12a5f // indirect
 	github.com/envoyproxy/protoc-gen-validate v1.2.1 // indirect
