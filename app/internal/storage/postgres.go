@@ -49,7 +49,7 @@ func (p *Postgres) DeleteTask(ctx context.Context, id int32) error {
 	}
 
 	if cnt == 0 {
-		return ErrTaskNotFound
+		return op.Wrap(ErrTaskNotFound)
 	}
 
 	return nil
@@ -68,7 +68,7 @@ func (p *Postgres) DoneTask(ctx context.Context, id int32) error {
 	}
 
 	if cnt == 0 {
-		return ErrTaskNotFound
+		return op.Wrap(ErrTaskNotFound)
 	}
 
 	return nil

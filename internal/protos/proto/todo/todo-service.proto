@@ -4,9 +4,9 @@ import "validate/validate.proto";
 import "google/protobuf/timestamp.proto";
 import "google/protobuf/empty.proto";
 
-package tdlapi;
+package todoapi;
 
-option go_package = "tdlapi.v1;tdlapi";
+option go_package = "todoapi.v1;todoapi";
 
 service TodoService {
   rpc CreateTask (CreateTaskRequest) returns (CreateTaskResponse);
