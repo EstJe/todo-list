@@ -95,7 +95,7 @@ func (s *serverAPI) GetTasks(ctx context.Context, in *emptypb.Empty) (*todoapi.G
 			Id:      task.ID,
 			Title:   task.Title,
 			Description: task.Description,
-			Completed: task.StatusID
+			S: task.StatusID
 		})
 	}
 
