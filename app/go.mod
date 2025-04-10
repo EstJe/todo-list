@@ -1,6 +1,6 @@
 module github.com/EstJe/todo-list/app
 
-go 1.24.0
+go 1.24.1
 
 require (
 	github.com/fatih/color v1.18.0
@@ -10,7 +10,7 @@ require (
 )
 
 require (
-	github.com/EstJe/todo-list/internal/protos v0.0.0-20250409180626-886973eeaca7 // indirect
+	github.com/EstJe/todo-list/internal/protos v0.0.0-20250410102410-ea7e558d4455 // indirect
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
 	github.com/dgryski/go-rendezvous v0.0.0-20200823014737-9f7001d12a5f // indirect
 	github.com/envoyproxy/protoc-gen-validate v1.2.1 // indirect
@@ -20,5 +20,5 @@ require (
 	golang.org/x/sys v0.31.0 // indirect
 	golang.org/x/text v0.23.0 // indirect
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20250313205543-e70fdf4c4cb4 // indirect
-	google.golang.org/protobuf v1.36.5 // indirect
+	google.golang.org/protobuf v1.36.6 // indirect
 )

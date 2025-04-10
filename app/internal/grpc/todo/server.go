@@ -15,15 +15,30 @@ type TodoService interface {
 }
 
 type serverAPI struct {
-	todoapi.UnimplementedTodoListServer
+	todoapi.UnimplementedTodoServiceServer
 	todoservice TodoService
 }
 
-func New(service TodoService) serverAPI {
-	return serverAPI{todoservice: service}
+func New(service TodoService) *serverAPI {
+	return &serverAPI{todoservice: service}
 }
 
 func Register(gRPC *grpc.Server, api *serverAPI) {
-	todoapi.re(gRPC, api)
-	todoapi.
+	todoapi.RegisterTodoServiceServer(gRPC, api)
+}
+
+func (s *serverAPI) CreateTask(ctx context.Context, title string, description string) (int32, error) {
+
+}
+
+func (s *serverAPI) DeleteTask(ctx context.Context, id int32) error {
+
+}
+
+func (s *serverAPI) MarkTaskDone(ctx context.Context, id int32) error {
+
+}
+
+func (s *serverAPI) GetTasks(ctx context.Context) ([]models.Task, error) {
+
 }
