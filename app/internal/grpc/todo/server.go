@@ -89,7 +89,16 @@ func (s *serverAPI) GetTasks(ctx context.Context, in *emptypb.Empty) (*todoapi.G
 		return nil, status.Error(codes.Internal, "internal server error")
 	}
 
-	grpcTasks := make([]todoapi.GetTasksResponse_Task)
+	taskspb := make([]todoapi.Task, 0, len(tasks))
+	for _, task := range tasks {
+		taskspb = append(taskspb, todoapi.Task{
+			Id:      task.ID,
+			Title:   task.Title,
+			Description: task.Description,
+			Completed: task.StatusID
+		})
+	}
+
 
 	return &todoapi.GetTasksResponse{}
 }

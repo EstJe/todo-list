@@ -516,7 +516,7 @@ func (m *Task) validate(all bool) error {
 
 	// no validation rules for Description
 
-	// no validation rules for Completed
+	// no validation rules for StatusId
 
 	if all {
 		switch v := interface{}(m.GetCreatedAt()).(type) {
