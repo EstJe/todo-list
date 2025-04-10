@@ -12,7 +12,7 @@ service TodoService {
   rpc CreateTask (CreateTaskRequest) returns (CreateTaskResponse);
   rpc DeleteTask (DeleteTaskRequest) returns (google.protobuf.Empty);
   rpc MarkTaskDone (MarkTaskDoneRequest) returns (google.protobuf.Empty);
-  rpc GetTasks (google.protobuf.Empty) returns (ListTasksResponse);
+  rpc GetTasks (google.protobuf.Empty) returns (GetTasksResponse);
 }
 
 message CreateTaskRequest {
@@ -32,7 +32,7 @@ message MarkTaskDoneRequest {
   int32 id = 1 [(validate.rules).int32 = {gt: 0}];
 }
 
-message ListTasksResponse {
+message GetTasksResponse {
   repeated Task tasks = 1;
 
   message Task {

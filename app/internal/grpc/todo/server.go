@@ -27,7 +27,7 @@ func Register(gRPC *grpc.Server, api *serverAPI) {
 	todoapi.RegisterTodoServiceServer(gRPC, api)
 }
 
-func (s *serverAPI) CreateTask(ctx context.Context, title string, description string) (int32, error) {
+func (s *serverAPI) CreateTask(todoapi.lis) (int32, error) {
 
 }
 
