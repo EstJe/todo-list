@@ -4,7 +4,7 @@
 // - protoc             v5.29.3
 // source: todo/todo-service.proto
 
-package tdlapi
+package todoapi
 
 import (
 	context "context"
@@ -20,10 +20,10 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	TodoService_CreateTask_FullMethodName   = "/tdlapi.TodoService/CreateTask"
-	TodoService_DeleteTask_FullMethodName   = "/tdlapi.TodoService/DeleteTask"
-	TodoService_MarkTaskDone_FullMethodName = "/tdlapi.TodoService/MarkTaskDone"
-	TodoService_GetTasks_FullMethodName     = "/tdlapi.TodoService/GetTasks"
+	TodoService_CreateTask_FullMethodName   = "/todoapi.TodoService/CreateTask"
+	TodoService_DeleteTask_FullMethodName   = "/todoapi.TodoService/DeleteTask"
+	TodoService_MarkTaskDone_FullMethodName = "/todoapi.TodoService/MarkTaskDone"
+	TodoService_GetTasks_FullMethodName     = "/todoapi.TodoService/GetTasks"
 )
 
 // TodoServiceClient is the client API for TodoService service.
@@ -211,7 +211,7 @@ func _TodoService_GetTasks_Handler(srv interface{}, ctx context.Context, dec fun
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var TodoService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "tdlapi.TodoService",
+	ServiceName: "todoapi.TodoService",
 	HandlerType: (*TodoServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
