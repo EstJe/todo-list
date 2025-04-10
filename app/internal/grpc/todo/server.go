@@ -24,5 +24,6 @@ func New(service TodoService) serverAPI {
 }
 
 func Register(gRPC *grpc.Server, api *serverAPI) {
-	todoapi.Reg(gRPC, api)
+	todoapi.re(gRPC, api)
+	todoapi.
 }
