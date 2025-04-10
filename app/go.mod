@@ -8,8 +8,10 @@ require (
 )
 
 require (
+	github.com/EstJe/todo-list/internal/protos v0.0.0-20250409180626-886973eeaca7 // indirect
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
 	github.com/dgryski/go-rendezvous v0.0.0-20200823014737-9f7001d12a5f // indirect
+	github.com/google/uuid v1.6.0 // indirect
 	github.com/mattn/go-colorable v0.1.13 // indirect
 	github.com/mattn/go-isatty v0.0.20 // indirect
 	golang.org/x/net v0.37.0 // indirect
