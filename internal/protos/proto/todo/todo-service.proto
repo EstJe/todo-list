@@ -12,7 +12,7 @@ service TodoService {
   rpc CreateTask (CreateTaskRequest) returns (CreateTaskResponse);
   rpc DeleteTask (DeleteTaskRequest) returns (google.protobuf.Empty);
   rpc MarkTaskDone (MarkTaskDoneRequest) returns (google.protobuf.Empty);
-  rpc ListTasks (google.protobuf.Empty) returns (ListTasksResponse);
+  rpc GetTasks (google.protobuf.Empty) returns (ListTasksResponse);
 }
 
 message CreateTaskRequest {

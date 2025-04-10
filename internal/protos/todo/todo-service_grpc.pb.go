@@ -23,7 +23,7 @@ const (
 	TodoService_CreateTask_FullMethodName   = "/tdlapi.TodoService/CreateTask"
 	TodoService_DeleteTask_FullMethodName   = "/tdlapi.TodoService/DeleteTask"
 	TodoService_MarkTaskDone_FullMethodName = "/tdlapi.TodoService/MarkTaskDone"
-	TodoService_ListTasks_FullMethodName    = "/tdlapi.TodoService/ListTasks"
+	TodoService_GetTasks_FullMethodName     = "/tdlapi.TodoService/GetTasks"
 )
 
 // TodoServiceClient is the client API for TodoService service.
@@ -33,7 +33,7 @@ type TodoServiceClient interface {
 	CreateTask(ctx context.Context, in *CreateTaskRequest, opts ...grpc.CallOption) (*CreateTaskResponse, error)
 	DeleteTask(ctx context.Context, in *DeleteTaskRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	MarkTaskDone(ctx context.Context, in *MarkTaskDoneRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
-	ListTasks(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*ListTasksResponse, error)
+	GetTasks(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*ListTasksResponse, error)
 }
 
 type todoServiceClient struct {
@@ -74,10 +74,10 @@ func (c *todoServiceClient) MarkTaskDone(ctx context.Context, in *MarkTaskDoneRe
 	return out, nil
 }
 
-func (c *todoServiceClient) ListTasks(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*ListTasksResponse, error) {
+func (c *todoServiceClient) GetTasks(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*ListTasksResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(ListTasksResponse)
-	err := c.cc.Invoke(ctx, TodoService_ListTasks_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, TodoService_GetTasks_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -91,7 +91,7 @@ type TodoServiceServer interface {
 	CreateTask(context.Context, *CreateTaskRequest) (*CreateTaskResponse, error)
 	DeleteTask(context.Context, *DeleteTaskRequest) (*emptypb.Empty, error)
 	MarkTaskDone(context.Context, *MarkTaskDoneRequest) (*emptypb.Empty, error)
-	ListTasks(context.Context, *emptypb.Empty) (*ListTasksResponse, error)
+	GetTasks(context.Context, *emptypb.Empty) (*ListTasksResponse, error)
 	mustEmbedUnimplementedTodoServiceServer()
 }
 
@@ -111,8 +111,8 @@ func (UnimplementedTodoServiceServer) DeleteTask(context.Context, *DeleteTaskReq
 func (UnimplementedTodoServiceServer) MarkTaskDone(context.Context, *MarkTaskDoneRequest) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method MarkTaskDone not implemented")
 }
-func (UnimplementedTodoServiceServer) ListTasks(context.Context, *emptypb.Empty) (*ListTasksResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ListTasks not implemented")
+func (UnimplementedTodoServiceServer) GetTasks(context.Context, *emptypb.Empty) (*ListTasksResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetTasks not implemented")
 }
 func (UnimplementedTodoServiceServer) mustEmbedUnimplementedTodoServiceServer() {}
 func (UnimplementedTodoServiceServer) testEmbeddedByValue()                     {}
@@ -189,20 +189,20 @@ func _TodoService_MarkTaskDone_Handler(srv interface{}, ctx context.Context, dec
 	return interceptor(ctx, in, info, handler)
 }
 
-func _TodoService_ListTasks_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _TodoService_GetTasks_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(emptypb.Empty)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(TodoServiceServer).ListTasks(ctx, in)
+		return srv.(TodoServiceServer).GetTasks(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: TodoService_ListTasks_FullMethodName,
+		FullMethod: TodoService_GetTasks_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(TodoServiceServer).ListTasks(ctx, req.(*emptypb.Empty))
+		return srv.(TodoServiceServer).GetTasks(ctx, req.(*emptypb.Empty))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -227,8 +227,8 @@ var TodoService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _TodoService_MarkTaskDone_Handler,
 		},
 		{
-			MethodName: "ListTasks",
-			Handler:    _TodoService_ListTasks_Handler,
+			MethodName: "GetTasks",
+			Handler:    _TodoService_GetTasks_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
