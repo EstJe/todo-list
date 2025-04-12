@@ -3,9 +3,9 @@ package todogrpc
 import (
 	"context"
 	"errors"
+	todoapi "github.com/EstJe/todo-list/api/gen"
 	"github.com/EstJe/todo-list/domain/models"
 	"github.com/EstJe/todo-list/internal/grpc-server/service/todo"
-	todoapi "github.com/EstJe/todo-list/internal/protos/todo"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 	"google.golang.org/protobuf/types/known/emptypb"

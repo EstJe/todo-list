@@ -1,11 +1,11 @@
 package grpcapp
 
 import (
+	todoapi "github.com/EstJe/todo-list/api/gen"
 	"github.com/EstJe/todo-list/internal/grpc-server/grpc/todo"
 	"github.com/EstJe/todo-list/internal/grpc-server/service/todo"
 	"github.com/EstJe/todo-list/internal/lib/interceptors"
 	"github.com/EstJe/todo-list/internal/lib/op"
-	todoapi "github.com/EstJe/todo-list/internal/protos/todo"
 	"google.golang.org/grpc"
 	"log/slog"
 	"net"

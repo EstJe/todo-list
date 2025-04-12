@@ -1,9 +1,8 @@
-module github.com/EstJe/todo-list
+module todo-list
 
 go 1.24.0
 
 require (
-	github.com/EstJe/todo-list/internal/protos v0.0.0-20250410141835-e2c38208a0c0
 	github.com/envoyproxy/protoc-gen-validate v1.2.1
 	github.com/fatih/color v1.18.0
 	github.com/go-redis/redis/v8 v8.11.5
