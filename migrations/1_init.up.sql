@@ -1,0 +1,18 @@
+
+CREATE TABLE IF NOT EXISTS status (
+    id SERIAL PRIMARY KEY,
+    name TEXT UNIQUE NOT NULL
+);
+
+INSERT INTO status (id, name) VALUES
+    (1, 'todo'),
+    (2, 'done')
+ON CONFLICT (id) DO NOTHING;
+
+CREATE TABLE IF NOT EXISTS tasks (
+    id SERIAL PRIMARY KEY,
+    title VARCHAR(31) NOT NULL,
+    description VARCHAR(255) NOT NULL,
+    status_id INT NOT NULL DEFAULT 1 REFERENCES status(id) ON DELETE RESTRICT,
+    created_at TIMESTAMP DEFAULT NOW()
+);

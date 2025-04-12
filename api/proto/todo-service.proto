@@ -1,0 +1,68 @@
+syntax = "proto3";
+
+import "validate/validate.proto";
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/empty.proto";
+import "google/api/annotations.proto";
+
+package todoapi;
+
+option go_package = "todoapi.v1;todoapi";
+
+service TodoService {
+  rpc CreateTask (CreateTaskRequest) returns (CreateTaskResponse) {
+    option (google.api.http) = {
+      post: "/tasks"
+      body: "*"
+    };
+  }
+
+  rpc DeleteTask (DeleteTaskRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      delete: "/tasks/{id}"
+    };
+  }
+
+  rpc MarkTaskDone (MarkTaskDoneRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      patch: "/tasks/{id}/done"
+      body: "*"
+    };
+  }
+
+  rpc GetTasks (google.protobuf.Empty) returns (GetTasksResponse) {
+    option (google.api.http) = {
+      get: "/tasks"
+    };
+  }
+}
+
+
+message CreateTaskRequest {
+  string title = 1 [(validate.rules).string = {max_len: 31}];
+  string description = 2 [(validate.rules).string = {max_len: 255}];
+}
+
+message CreateTaskResponse {
+  int32 id = 1;
+}
+
+message DeleteTaskRequest {
+  int32 id = 1 [(validate.rules).int32 = {gt: 0}];
+}
+
+message MarkTaskDoneRequest {
+  int32 id = 1 [(validate.rules).int32 = {gt: 0}];
+}
+
+message Task {
+  int32 id = 1;
+  string title = 2;
+  string description = 3;
+  int32 status_id = 4;
+  google.protobuf.Timestamp created_at = 5;
+}
+
+message GetTasksResponse {
+  repeated Task tasks = 1;
+}
