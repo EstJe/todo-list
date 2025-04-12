@@ -3,8 +3,8 @@ package storage
 import (
 	"context"
 	"encoding/json"
-	"github.com/EstJe/todo-list/app/domain/models"
-	"github.com/EstJe/todo-list/app/internal/lib/op"
+	"github.com/EstJe/todo-list/domain/models"
+	"github.com/EstJe/todo-list/internal/lib/op"
 	"github.com/go-redis/redis/v8"
 	"time"
 )

@@ -1,9 +1,9 @@
 package storageapp
 
 import (
-	"github.com/EstJe/todo-list/app/internal/grpc-server/app/storage/cache"
-	"github.com/EstJe/todo-list/app/internal/grpc-server/app/storage/db"
-	"github.com/EstJe/todo-list/app/internal/grpc-server/storage"
+	"github.com/EstJe/todo-list/internal/grpc-server/app/storage/cache"
+	"github.com/EstJe/todo-list/internal/grpc-server/app/storage/db"
+	"github.com/EstJe/todo-list/internal/grpc-server/storage"
 	"log/slog"
 	"time"
 )

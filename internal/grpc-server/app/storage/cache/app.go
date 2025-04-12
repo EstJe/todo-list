@@ -1,8 +1,8 @@
 package cacheapp
 
 import (
-	"github.com/EstJe/todo-list/app/internal/grpc-server/app/storage/cache/redis"
-	"github.com/EstJe/todo-list/app/internal/grpc-server/storage"
+	"github.com/EstJe/todo-list/internal/grpc-server/app/storage/cache/redis"
+	"github.com/EstJe/todo-list/internal/grpc-server/storage"
 	"log/slog"
 	"time"
 )

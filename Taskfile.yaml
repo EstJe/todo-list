@@ -28,3 +28,7 @@ tasks:
       - go install github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-grpc-gateway@latest
       - go install github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-openapiv2@latest
       - go install github.com/envoyproxy/protoc-gen-validate@latest
+
+  dockerfile-grpc:
+    cmds:
+      - docker build -f deployments/docker/grpc-server/Dockerfile -t todo-grpc-server .

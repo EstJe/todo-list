@@ -2,9 +2,9 @@ package app
 
 import (
 	_ "fmt"
-	"github.com/EstJe/todo-list/app/internal/grpc-server/app/grpc"
-	"github.com/EstJe/todo-list/app/internal/grpc-server/app/storage"
-	"github.com/EstJe/todo-list/app/internal/grpc-server/service/todo"
+	"github.com/EstJe/todo-list/internal/grpc-server/app/grpc"
+	"github.com/EstJe/todo-list/internal/grpc-server/app/storage"
+	"github.com/EstJe/todo-list/internal/grpc-server/service/todo"
 	"log/slog"
 	"time"
 )

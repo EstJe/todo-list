@@ -1,7 +1,7 @@
 package logger
 
 import (
-	"github.com/EstJe/todo-list/app/internal/lib/logger/prettylogger"
+	"github.com/EstJe/todo-list/internal/lib/logger/prettylogger"
 	"io"
 	"log/slog"
 	"os"

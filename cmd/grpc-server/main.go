@@ -1,9 +1,9 @@
 package main
 
 import (
-	"github.com/EstJe/todo-list/app/internal/grpc-server/app"
-	"github.com/EstJe/todo-list/app/internal/grpc-server/config"
-	"github.com/EstJe/todo-list/app/internal/lib/logger"
+	"github.com/EstJe/todo-list/internal/grpc-server/app"
+	"github.com/EstJe/todo-list/internal/grpc-server/config"
+	"github.com/EstJe/todo-list/internal/lib/logger"
 	"os"
 	"os/signal"
 	"syscall"

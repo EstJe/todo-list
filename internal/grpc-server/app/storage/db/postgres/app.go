@@ -2,8 +2,8 @@ package pqapp
 
 import (
 	"database/sql"
-	"github.com/EstJe/todo-list/app/internal/grpc-server/storage"
-	"github.com/EstJe/todo-list/app/internal/lib/op"
+	"github.com/EstJe/todo-list/internal/grpc-server/storage"
+	"github.com/EstJe/todo-list/internal/lib/op"
 	_ "github.com/lib/pq"
 	"log/slog"
 )
