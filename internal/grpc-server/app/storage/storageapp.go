@@ -8,18 +8,28 @@ import (
 	"time"
 )
 
+type DBApp interface {
+	MustRun()
+	Close()
+}
+
+type CacheApp interface {
+	MustRun()
+	Close()
+}
+
 type App struct {
 	log          *slog.Logger
-	DB           dbapp.DBApp
-	Cache        cacheapp.CacheApp
+	DB           DBApp
+	Cache        CacheApp
 	storageCache *storage.StorageCache
 }
 
 func New(log *slog.Logger, dbURL string, cacheURL string, cacheTTL time.Duration) (*App, *storage.StorageCache) {
 	storageCache := &storage.StorageCache{}
 
-	dbApp, db := dbapp.New(log, dbURL)
-	cacheApp, cache := cacheapp.New(log, cacheURL, cacheTTL)
+	dbApp, db := dbapp.NewPostgresApp(log, dbURL)
+	cacheApp, cache := cacheapp.NewRedisApp(log, cacheURL, cacheTTL)
 	storageCache = storage.NewStorageCache(log, db, cache, cacheTTL)
 
 	return &App{

@@ -16,13 +16,13 @@ func main() {
 	// init logger
 	log := logger.New(cfg.Env)
 
-	// init server
+	// init app
 	application := app.New(
 		log,
 		cfg.DB.URL,
 		cfg.Cache.URL,
 		cfg.Cache.TTL,
-		cfg.GRPC.Addr,
+		cfg.GRPC.Port,
 	)
 
 	application.Storage.Cache.MustRun()

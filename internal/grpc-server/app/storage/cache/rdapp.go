@@ -1,4 +1,4 @@
-package rdapp
+package cacheapp
 
 import (
 	"github.com/EstJe/todo-list/internal/grpc-server/storage"

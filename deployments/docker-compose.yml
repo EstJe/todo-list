@@ -1,10 +1,9 @@
 version: '3.8'
 
 services:
-  # PostgreSQL
   postgres:
     image: postgres:15-alpine
-    env_file: ../.env
+    env_file: .env
     volumes:
       - postgres_data:/var/lib/postgresql/data
       - ../migrations:/docker-entrypoint-initdb.d
@@ -14,7 +13,6 @@ services:
       timeout: 5s
       retries: 5
 
-  # Redis
   redis:
     image: redis:7-alpine
     volumes:
@@ -26,10 +24,51 @@ services:
       timeout: 5s
       retries: 5
 
-  # App
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.3.0
+    environment:
+      ZOOKEEPER_CLIENT_PORT: ${ZOOKEEPER_PORT}
+
+  kafka:
+    image: confluentinc/cp-kafka:7.3.0
+    depends_on:
+      - zookeeper
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: ${ZOOKEEPER_HOST}:${ZOOKEEPER_PORT}
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://${KAFKA_HOST}:${KAFKA_PORT}
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "false"
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    healthcheck:
+      test: [ "CMD-SHELL", "kafka-broker-api-versions --bootstrap-server ${KAFKA_HOST}:${KAFKA_PORT} --version | grep -q 7.3.0" ]
+      interval: 10s
+      timeout: 20s
+      retries: 15
+      start_period: 30s
+
+  kafka-init:
+    image: confluentinc/cp-kafka:7.3.0
+    depends_on:
+      kafka:
+        condition: service_healthy
+    command: >
+      bash -c "
+      echo 'Waiting for Kafka to be fully ready...';
+      cub kafka-ready -b ${KAFKA_HOST}:${KAFKA_PORT} 1 60;
+      echo 'Creating topic...';
+      kafka-topics --bootstrap-server ${KAFKA_HOST}:${KAFKA_PORT} --create --if-not-exists --topic ${KAFKA_TOPIC} --partitions ${KAFKA_PARTITIONS} --replication-factor 1;
+      echo 'Topic created successfully';
+      sleep 5;
+      "
+    environment:
+      KAFKA_BOOTSTRAP_SERVERS: ${KAFKA_HOST}:${KAFKA_PORT}
+
   app:
-    build: ../deployments/docker/grpc-server
-    env_file: ../.env
+    build:
+      context: ../  
+      dockerfile: deployments/docker/grpc-server/Dockerfile
+    env_file: .env
     depends_on:
       postgres:
         condition: service_healthy
@@ -38,18 +77,25 @@ services:
     ports:
       - "${TODOAPP_GRPC_PORT}:${TODOAPP_GRPC_PORT}"
 
+  proxy:
+    build:
+      context: ../
+      dockerfile: deployments/docker/http-gateway/Dockerfile
+    env_file: .env
+    depends_on:
+      kafka-init:
+        condition: service_completed_successfully
+    ports:
+      - "${PROXY_HTTP_PORT}:${PROXY_HTTP_PORT}"
 
-  # Прокси (например, Nginx для gRPC-HTTP)
-    #proxy:
-    #image: nginx:alpine
-    #env_file: .env
-      #volumes:
-      # - ./proxy/nginx.conf:/etc/nginx/nginx.conf
-      #ports:
-      #  - "80:80"
-    #  - "443:443"
-      # depends_on:
-      #- app
+  audit:
+    build:
+      context: ../
+      dockerfile: deployments/docker/audit/Dockerfile
+    env_file: .env
+    depends_on:
+      kafka-init:
+        condition: service_completed_successfully
 
 volumes:
   postgres_data:

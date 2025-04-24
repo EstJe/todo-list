@@ -1,4 +1,4 @@
-package pqapp
+package dbapp
 
 import (
 	"database/sql"

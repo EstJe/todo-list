@@ -19,12 +19,12 @@ func New(
 	dbURL string,
 	cacheURL string,
 	cacheTTL time.Duration,
-	grpcAddr string,
+	grpcPort int,
 ) *App {
 
 	sapp, storageCache := storageapp.New(log, dbURL, cacheURL, cacheTTL)
 	service := todosrv.New(log, storageCache)
-	gapp := grpcapp.New(log, grpcAddr, service)
+	gapp := grpcapp.New(log, grpcPort, service)
 
 	return &App{
 		GRPC:    gapp,

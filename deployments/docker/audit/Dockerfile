@@ -7,7 +7,7 @@ COPY go.mod go.sum ./
 RUN go mod download
 
 COPY . .
-RUN CGO_ENABLED=0 GOOS=linux go build -o server ./cmd/grpc-server/main.go
+RUN CGO_ENABLED=0 GOOS=linux go build -o server ./cmd/audit/main.go
 
 # Runtime stage
 FROM alpine:latest

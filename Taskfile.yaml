@@ -32,3 +32,15 @@ tasks:
   dockerfile-grpc:
     cmds:
       - docker build -f deployments/docker/grpc-server/Dockerfile -t todo-grpc-server .
+
+  dockerfile-http:
+    cmds:
+      - docker build -f deployments/docker/http-gateway/Dockerfile -t todo-http-gateway .
+
+  dockerfile-audit:
+    cmds:
+      - docker build -f deployments/docker/audit/Dockerfile -t todo-audit .
+
+  docker-compose:
+    cmds:
+      - docker-compose -f deployments/docker-compose.yml -p todo-list up
