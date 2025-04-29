@@ -10,13 +10,13 @@ import (
 )
 
 func main() {
-	// TODO: init config
+	// init config
 	cfg := config.MustLoad()
 
-	// TODO: init logger
+	// init logger
 	log := logger.New(cfg.Env)
 
-	// TODO: init app
+	// init app
 	application := app.New(
 		log,
 		cfg.Broker.Addr,
