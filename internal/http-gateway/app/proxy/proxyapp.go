@@ -6,6 +6,7 @@ import (
 	proxy "github.com/EstJe/todo-list/internal/http-gateway/http/proxy"
 	"github.com/EstJe/todo-list/internal/lib/op"
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"log/slog"
 	"net/http"
 	"strconv"
@@ -26,11 +27,18 @@ func New(log *slog.Logger, grpcAddr string, httpPort int, brokerWriter BrokerWri
 	proxy := proxy.New(log, grpcMux, grpcAddr)
 	proxy.RegisterHandlers()
 
-	wrappedMux := middleware.BrokerTaskAuditMiddleware(log, brokerWriter, grpcMux)
+	// 1. Оборачиваем grpcMux в middleware
+	apiHandler := middleware.MetricsMiddleware(
+		middleware.BrokerTaskAuditMiddleware(log, brokerWriter, grpcMux))
+
+	// 2. Создаем мультиплексор для объединения API и метрик
+	mux := http.NewServeMux()
+	mux.Handle("/metrics", promhttp.Handler()) // метрики
+	mux.Handle("/", apiHandler)                // ВСЕ остальные запросы к API
 
 	httpServer := &http.Server{
 		Addr:    ":" + strconv.Itoa(httpPort),
-		Handler: wrappedMux,
+		Handler: mux,
 	}
 
 	return &App{log: log, httpServer: httpServer}

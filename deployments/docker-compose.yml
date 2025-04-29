@@ -100,30 +100,28 @@ services:
   prometheus:
     image: prom/prometheus:latest
     ports:
-      - "9090" # Статичен, используется в config файлах мониторинга
+      - "${PROMETHEUS_PORT}:9090" # Статичен, используется в config файлах мониторинга
     volumes:
-      - ../deployments/monitoring/prometheus:/etc/prometheus
-    command:
-      - '--config.file=/etc/prometheus/prometheus.yml'
+      - ../deployments/monitoring/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
     depends_on:
       - app
 
   loki:
     image: grafana/loki:latest
     ports:
-      - "3100"  # Статичен, используется в config файлах мониторинга
+      - "${LOKI_PORT}:3100"  # Статичен, используется в config файлах мониторинга
     volumes:
-      - ../deployments/monitoring/loki:/etc/loki
-    command:
-      - '-config.file=/etc/loki/config.yaml'
+      - ../deployments/monitoring/loki/config.yaml:/etc/loki/local-config.yaml
 
   promtail:
     image: grafana/promtail:latest
+    ports:
+      - "${PROMTAIL_PORT}:9080"
     volumes:
-      - ../deployments/monitoring/promtail:/etc/promtail
-      - /var/log:/var/log
-    command:
-      - '-config.file=/etc/promtail/config.yaml'
+      - ../deployments/monitoring/promtail/config.yaml:/etc/promtail/config.yml
+      - ../var/log:/var/log
+    command: -config.file=/etc/promtail/config.yml
+    privileged: true
     depends_on:
       - app
       - loki
@@ -131,7 +129,7 @@ services:
   grafana:
     image: grafana/grafana:latest
     ports:
-      - "${GRAFANA_PORT}:3000"
+      - "${GRAFANA_PORT}:3000" # Статичен, используется в config файлах мониторинга
     volumes:
       - ../deployments/monitoring/grafana/provisioning:/etc/grafana/provisioning
       - ../deployments/monitoring/grafana/dashboards:/var/lib/grafana/dashboards

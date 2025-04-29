@@ -6,6 +6,7 @@ import (
 	"github.com/EstJe/todo-list/internal/lib/logger"
 	"os"
 	"os/signal"
+	"path/filepath"
 	"syscall"
 )
 
@@ -14,7 +15,12 @@ func main() {
 	cfg := config.MustLoad()
 
 	// init logger
-	pathLogFile := "/var/log/http-gateway/1.log"
+	projectRoot, err := filepath.Abs(filepath.Join(".."))
+	if err != nil {
+		panic(err)
+	}
+
+	pathLogFile := filepath.Join(projectRoot, "var", "log", "http-gateway", "1.log")
 	log, err := logger.New(cfg.Env, pathLogFile)
 	if err != nil {
 		panic(err)
