@@ -14,7 +14,11 @@ func main() {
 	cfg := config.MustLoad()
 
 	// init logger
-	log := logger.New(cfg.Env)
+	pathLogFile := "/var/log/grpc-server/1.log"
+	log, err := logger.New(cfg.Env, pathLogFile)
+	if err != nil {
+		panic(err)
+	}
 
 	// init app
 	application := app.New(
