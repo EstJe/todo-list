@@ -2,10 +2,7 @@ global:
   scrape_interval: 3s
 
 scrape_configs:
-  - job_name: 'grpc-service'
+  - job_name: "proxy"
+    metrics_path: /metrics
     static_configs:
-      - targets: ['proxy:8080']
-
-  - job_name: 'prometheus'
-    static_configs:
-      - targets: ['prometheus:9090']
+      - targets: ["proxy:8080"]

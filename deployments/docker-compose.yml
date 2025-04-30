@@ -68,6 +68,7 @@ services:
     build:
       context: ../  
       dockerfile: deployments/docker/grpc-server/Dockerfile
+    container_name: app
     env_file: .env
     depends_on:
       postgres:
@@ -76,67 +77,84 @@ services:
         condition: service_healthy
     ports:
       - "${TODOAPP_GRPC_PORT}:${TODOAPP_GRPC_PORT}"
+    logging:
+      driver: json-file
+      options:
+        tag: "{{.ImageName}}|{{.Name}}|{{.ImageFullID}}|{{.FullID}}"
 
   proxy:
     build:
       context: ../
       dockerfile: deployments/docker/http-gateway/Dockerfile
+    container_name: proxy
     env_file: .env
     depends_on:
       kafka-init:
         condition: service_completed_successfully
     ports:
       - "${PROXY_HTTP_PORT}:${PROXY_HTTP_PORT}"
+    logging:
+      driver: json-file
+      options:
+        tag: "{{.ImageName}}|{{.Name}}|{{.ImageFullID}}|{{.FullID}}"
 
   audit:
     build:
       context: ../
       dockerfile: deployments/docker/audit/Dockerfile
+    container_name: audit
     env_file: .env
     depends_on:
       kafka-init:
         condition: service_completed_successfully
-
-  prometheus:
-    image: prom/prometheus:latest
-    ports:
-      - "${PROMETHEUS_PORT}:9090" # Статичен, используется в config файлах мониторинга
-    volumes:
-      - ../deployments/monitoring/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
-    depends_on:
-      - app
-
-  loki:
-    image: grafana/loki:latest
-    ports:
-      - "${LOKI_PORT}:3100"  # Статичен, используется в config файлах мониторинга
-    volumes:
-      - ../deployments/monitoring/loki/config.yaml:/etc/loki/local-config.yaml
+    logging:
+      driver: json-file
+      options:
+        tag: "{{.ImageName}}|{{.Name}}|{{.ImageFullID}}|{{.FullID}}"
 
   promtail:
     image: grafana/promtail:latest
+    container_name: promtail
     ports:
-      - "${PROMTAIL_PORT}:9080"
+      - "9080:9080"
     volumes:
+      - /var/lib/docker/containers:/var/lib/docker/containers:ro
+      - /var/run/docker.sock:/var/run/docker.sock
       - ../deployments/monitoring/promtail/config.yaml:/etc/promtail/config.yml
-      - ../var/log:/var/log
     command: -config.file=/etc/promtail/config.yml
     privileged: true
-    depends_on:
-      - app
-      - loki
+
+  loki:
+    image: grafana/loki:latest
+    container_name: loki
+    ports:
+      - "3100:3100"
+    volumes:
+      - ../deployments/monitoring/loki/config.yaml:/etc/loki/local-config.yaml
+
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ../deployments/monitoring/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheusdata:/prometheus
 
   grafana:
     image: grafana/grafana:latest
+    container_name: grafana
     ports:
-      - "${GRAFANA_PORT}:3000" # Статичен, используется в config файлах мониторинга
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
     volumes:
-      - ../deployments/monitoring/grafana/provisioning:/etc/grafana/provisioning
-      - ../deployments/monitoring/grafana/dashboards:/var/lib/grafana/dashboards
-    depends_on:
-      - prometheus
-      - loki
+      - ../deployments/monitoring/grafana/datasources.yaml:/etc/grafana/provisioning/datasources/datasources.yaml
+      - grafanadata:/var/lib/grafana
 
 volumes:
   postgres_data:
   redis_data:
+  grafanadata:
+  prometheusdata:
